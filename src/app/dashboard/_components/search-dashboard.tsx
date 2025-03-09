@@ -55,5 +55,3 @@ export const SearchDashboard = ({
     </div>
   );
 };
-
-export default SearchDashboard;

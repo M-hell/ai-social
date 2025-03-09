@@ -1,37 +1,38 @@
 "use client";
 
 import { useEffect, useState } from "react";
+
 import { contentTemplates } from "@/lib/content-templates";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 
 export const TemplateList = ({ searchInput }: { searchInput: string }) => {
-  const searchParams = useSearchParams();
-  const [searchCategory, setSearchCategory] = useState<string | null>(null);
   const [templateList, setTemplateList] = useState(contentTemplates);
 
-  // Update category on search param change
-  useEffect(() => {
-    setSearchCategory(searchParams.get("category"));
-  }, [searchParams]);
+  const searchParams = useSearchParams();
+  const searchCategory = searchParams.get("category");
 
-  // Filter by category
   useEffect(() => {
     if (searchCategory === "All") {
       setTemplateList(contentTemplates);
     } else if (searchCategory) {
-      setTemplateList(contentTemplates.filter((item) => item.category === searchCategory));
+      const filteredTemplates = contentTemplates.filter(
+        (item) => item.category === searchCategory
+      );
+      setTemplateList(filteredTemplates);
     } else {
       setTemplateList(contentTemplates);
     }
   }, [searchCategory]);
 
-  // Filter by search input
+  // Search Input
   useEffect(() => {
-    if (searchInput.length > 2) {
-      setTemplateList(contentTemplates.filter((item) =>
+    if (searchInput && searchInput.length > 2) {
+      const filteredTemplates = contentTemplates.filter((item) =>
         item.name.toLowerCase().includes(searchInput.toLowerCase())
-      ));
+      );
+
+      setTemplateList(filteredTemplates);
     } else {
       setTemplateList(contentTemplates);
     }
@@ -53,5 +54,3 @@ export const TemplateList = ({ searchInput }: { searchInput: string }) => {
     </div>
   );
 };
-
-export default TemplateList;
