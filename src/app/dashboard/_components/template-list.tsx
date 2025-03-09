@@ -1,11 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { contentTemplates } from "@/lib/content-templates";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 
-export const TemplateList = ({ searchInput }: { searchInput: string }) => {
+// Define the main component
+const TemplateListContent = ({ searchInput }: { searchInput: string }) => {
   const [templateList, setTemplateList] = useState(contentTemplates);
   const [searchCategory, setSearchCategory] = useState<string | null>(null);
 
@@ -16,6 +17,7 @@ export const TemplateList = ({ searchInput }: { searchInput: string }) => {
     setSearchCategory(searchParams.get("category"));
   }, [searchParams]);
 
+  // Filter templates based on category
   useEffect(() => {
     if (searchCategory === "All") {
       setTemplateList(contentTemplates);
@@ -29,13 +31,12 @@ export const TemplateList = ({ searchInput }: { searchInput: string }) => {
     }
   }, [searchCategory]);
 
-  // Search Input
+  // Filter templates based on search input
   useEffect(() => {
     if (searchInput && searchInput.length > 2) {
       const filteredTemplates = contentTemplates.filter((item) =>
         item.name.toLowerCase().includes(searchInput.toLowerCase())
       );
-
       setTemplateList(filteredTemplates);
     } else {
       setTemplateList(contentTemplates);
@@ -56,6 +57,15 @@ export const TemplateList = ({ searchInput }: { searchInput: string }) => {
         </div>
       ))}
     </div>
+  );
+};
+
+// Wrap the component in Suspense
+export const TemplateList = ({ searchInput }: { searchInput: string }) => {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <TemplateListContent searchInput={searchInput} />
+    </Suspense>
   );
 };
 
