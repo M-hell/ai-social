@@ -10,10 +10,12 @@ export const TemplateList = ({ searchInput }: { searchInput: string }) => {
   const [searchCategory, setSearchCategory] = useState<string | null>(null);
   const [templateList, setTemplateList] = useState(contentTemplates);
 
+  // Update category on search param change
   useEffect(() => {
     setSearchCategory(searchParams.get("category"));
   }, [searchParams]);
 
+  // Filter by category
   useEffect(() => {
     if (searchCategory === "All") {
       setTemplateList(contentTemplates);
@@ -24,6 +26,7 @@ export const TemplateList = ({ searchInput }: { searchInput: string }) => {
     }
   }, [searchCategory]);
 
+  // Filter by search input
   useEffect(() => {
     if (searchInput.length > 2) {
       setTemplateList(contentTemplates.filter((item) =>
