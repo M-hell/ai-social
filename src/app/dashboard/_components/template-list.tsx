@@ -7,9 +7,12 @@ import { useSearchParams } from "next/navigation";
 
 export const TemplateList = ({ searchInput }: { searchInput: string }) => {
   const searchParams = useSearchParams();
-  const searchCategory = searchParams.get("category"); // Directly use it
-
+  const [searchCategory, setSearchCategory] = useState<string | null>(null);
   const [templateList, setTemplateList] = useState(contentTemplates);
+
+  useEffect(() => {
+    setSearchCategory(searchParams.get("category"));
+  }, [searchParams]);
 
   useEffect(() => {
     if (searchCategory === "All") {
@@ -21,9 +24,8 @@ export const TemplateList = ({ searchInput }: { searchInput: string }) => {
     }
   }, [searchCategory]);
 
-  // Search Input
   useEffect(() => {
-    if (searchInput && searchInput.length > 2) {
+    if (searchInput.length > 2) {
       setTemplateList(contentTemplates.filter((item) =>
         item.name.toLowerCase().includes(searchInput.toLowerCase())
       ));
