@@ -5,16 +5,15 @@ import SearchDashboard from "./_components/search-dashboard";
 import { TemplateList } from "./_components/template-list";
 
 const Dashboard = () => {
-  // Initialize searchInput with an empty string to avoid type issues
-  const [searchInput, setSearchInput] = useState<string>("");
+  const [searchInput, setSearchInput] = useState<string>();
 
   return (
     <div>
       <SearchDashboard onSearchInput={setSearchInput} />
-
+      
       {/* Wrap TemplateList inside Suspense */}
       <Suspense fallback={<div>Loading templates...</div>}>
-        <TemplateList searchInput={searchInput} />
+        <TemplateList searchInput={searchInput as string} />
       </Suspense>
     </div>
   );

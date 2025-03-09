@@ -33,19 +33,18 @@ const categories = [
 export const SearchDashboard = ({
   onSearchInput,
 }: {
-  onSearchInput: React.Dispatch<React.SetStateAction<string>>;
+  onSearchInput: React.Dispatch<React.SetStateAction<string | undefined>>;
 }) => {
   return (
     <div className="mx-5 py-2">
-      <div className="flex flex-col md:flex-row gap-2 mt-5 py-6 px-4 bg-white rounded">
+      <div className="flex  md:flew-row gap-2 mt-5 py-6 px-4 bg-white rounded">
         <div className="flex gap-2 items-center p-2 border rounded-full bg-white w-full md:w-[20%]">
-          <SearchIcon className="text-gray-500" />
+          <SearchIcon />
           <input
             type="text"
             placeholder="Search..."
-            className="bg-transparent outline-none text-black w-full"
+            className="bg-transparent outline-none text-black"
             onChange={(e) => onSearchInput(e.target.value)}
-            aria-label="Search"
           />
         </div>
         <Categories items={categories} />
